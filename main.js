@@ -42,12 +42,18 @@ var map=new Map("mape");
 tc=32
 cam=[0,0]
 
-function it(n){ return parseInt(n) }
+function int(n){ return parseInt(n) }
+
+function range(start, end) {
+    var lst = [];
+    for (let i = start; i <= end; i++) lst.push(i);
+    return lst;
+}
 
 function affichage(mape,perso,ennemies){
         mape=map.terrain;
-        for( x = it(cam[0]/tc) ; x > it((cam[0]+tex)/tc) ; x++ ){
-                for( y = it(cam[1]/tc) ; y > it((cam[y]+tey)/tc) ; y++ ){
+        for( x in range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
+                for( y in range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
                         if( x>=0 && y>=0 && x<mape.lenght && y<mape[0].length){
                                 m=mape[x][y];
                                 context.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
