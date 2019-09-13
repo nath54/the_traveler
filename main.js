@@ -18,29 +18,22 @@ const emape=[
 [1,"catacombe0",im1]
 ];
 
-function readTextFile(file)
-{
-    var rawFile = new XMLHttpRequest();
-    rawFile.open("GET", file, false);
-    rawFile.onreadystatechange = function ()
-    {
-        if(rawFile.readyState === 4)
-        {
-            if(rawFile.status === 200 || rawFile.status == 0)
-            {
-                var allText = rawFile.responseText;
-                alert(allText);
-            }
-        }
-    }
-    rawFile.send(null);
-}
+var mape=[
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        ]
 
-function Map(nom){
-        var mape = readTextFile("map.json");
-        monFichier.Close();
-        var mapData = JSON.parse(mape);
-        this.terrain=mapData.terrain;
+function Map(nom){this.terrain=mape;
 }
 
 var map=new Map("mape");
@@ -54,17 +47,17 @@ function it(n){ return parseInt(n) }
 function affichage(mape,perso,ennemies){
         mape=map.terrain;
         for( x = it(cam[0]/tc) ; x > it((cam[0]+tex)/tc) ; x++ ){
-                for(y=0;y==mape[0].length;y++){
+                for( y = it(cam[1]/tc) ; y > it((cam[y]+tey)/tc) ; y++ ){
                         if( x>=0 && y>=0 && x<mape.lenght && y<mape[0].length){
                                 m=mape[x][y];
-                                ctx.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
+                                context.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
                         }
                 }
         }
-        for(x=0; x==enemies.length ; x++){
-                ctx.drawImage( enemies[x].img , cam[0]+enemies[x].px , cam[1]+enemies[x].py , enemies[x].tx, enemies[x].ty);
+        for(e in enemies){
+                context.drawImage( e.img , cam[0]+e.px , cam[1]+e.py , e.tx, e.ty);
         }
-        ctx.drawImage( perso.img , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
+        context.drawImage( perso.img , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
 }
 
 function getCollisionWithMap(perso){
@@ -87,7 +80,7 @@ function getEnemiesTouches(perso,enemies){
 
 class Perso{
         constructor(px,py){
-                dt=new Date();
+                var dt=new Date();
                 //location
                 this.px=px;
                 this.py=py;
@@ -127,7 +120,7 @@ class Perso{
                 this.img=imp1;
         }
         bouger(aa){
-                dt=new Date();
+                var dt=new Date();
                 if(aa==this.kup && dt.getTime-this.dkup>=this.tk){
                         this.dkup=dt.getTime();
                         this.py-=this.vit;
@@ -167,7 +160,7 @@ class Perso{
                 }
         }
         update(){
-                dt=new Date();
+                var dt=new Date();
                 if( dt.getTime()-this.dupdate>=this.t){
                         this.dupdate=dt.getTime();
                         if( this.vie<this.vie_tot && dt.getTime()-this.dregen_vie>=this.tregen_vie) this.vie+=1;
@@ -178,12 +171,19 @@ class Perso{
 
 
 function main(){
-        perso=Perso(50,50);
-        mape=getMape();
+        perso=new Perso(50,50);
+        mape=new Map();
         enemies=[];
+        encour=true;
 
-        function boucle(){
+        function mainboucle(){
                 perso.update();
-                aff(mape,perso,enemies);
+                affichage(mape,perso,enemies);
+                if(encour) window.requestAnimationFrame(mainboucle);
         }
+        window.requestAnimationFrame(mainboucle);
 }
+
+
+main()
+
