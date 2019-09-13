@@ -1,7 +1,5 @@
-alert("Au secour");
-
-canvas=Document.getElementById("canvas")
-context=canvas.getContext("2d")
+canvas=document.getElementById("canvas");
+context=canvas.getContext("2d");
 
 tex=1280;
 tey=720;
@@ -10,7 +8,7 @@ tey=720;
 is1=document.getElementById("is1");
 is2=document.getElementById("is2");
 im1=document.getElementById("im1");
-imp1=document.getElemtntById("imp1");
+imp1=document.getElementById("imp1");
 
 //ELEMENTS MAPE
 
@@ -20,14 +18,28 @@ const emape=[
 [1,"catacombe0",im1]
 ];
 
+function readTextFile(file)
+{
+    var rawFile = new XMLHttpRequest();
+    rawFile.open("GET", file, false);
+    rawFile.onreadystatechange = function ()
+    {
+        if(rawFile.readyState === 4)
+        {
+            if(rawFile.status === 200 || rawFile.status == 0)
+            {
+                var allText = rawFile.responseText;
+                alert(allText);
+            }
+        }
+    }
+    rawFile.send(null);
+}
+
 function Map(nom){
-        //création de l'objet XmlHttpRequest
-        var xhr = getXMLHttpRequest();
-        xhr.open("GET","./maps/"+nomn+".json", falsse);
-        xhr.send(null);
-        if( xhr.readyState!=4 || (xhr.statut != 200 && xhr.statut != 0)) throw new Error("Impossible de charger la carte "+nom+" ( code HTTP : "+xhr.statut+").");
-        var mapJsonData = xhr.responseText;
-        var mapData = JSON.parse(mapJsonData);
+        var mape = readTextFile("map.json");
+        monFichier.Close();
+        var mapData = JSON.parse(mape);
         this.terrain=mapData.terrain;
 }
 
@@ -41,7 +53,7 @@ function it(n){ return parseInt(n) }
 
 function affichage(mape,perso,ennemies){
         mape=map.terrain;
-        for( x = it(cam[0]/tc) ; x > it((cam[0]+tex)/tc) ){
+        for( x = it(cam[0]/tc) ; x > it((cam[0]+tex)/tc) ; x++ ){
                 for(y=0;y==mape[0].length;y++){
                         if( x>=0 && y>=0 && x<mape.lenght && y<mape[0].length){
                                 m=mape[x][y];
@@ -50,13 +62,14 @@ function affichage(mape,perso,ennemies){
                 }
         }
         for(x=0; x==enemies.length ; x++){
-                ctx.drawImage( enemies[x].img , cam[0]+enemies[x].px , cam[1+enemies[x].py , enemies[x].tx, enemies[x].ty);
+                ctx.drawImage( enemies[x].img , cam[0]+enemies[x].px , cam[1]+enemies[x].py , enemies[x].tx, enemies[x].ty);
         }
         ctx.drawImage( perso.img , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
 }
 
-fonction getCollisionWithMap(perso){
-        return false
+function getCollisionWithMap(perso){
+        iscollision=false;
+        return iscollision;
 }
 
 function getEnemiesTouches(perso,enemies){
@@ -72,7 +85,7 @@ function getEnemiesTouches(perso,enemies){
         return lst;
 }
 
-class Perso(){
+class Perso{
         constructor(px,py){
                 dt=new Date();
                 //location
