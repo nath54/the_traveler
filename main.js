@@ -19,18 +19,27 @@ const emape=[
 ];
 
 var mape=[
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0],
-                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
-                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
-                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0],
-                [0, 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 1, 1, 1, 1, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 2, 2, 2, 1, 1, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 2, 1, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]
 
 function Map(nom){this.terrain=mape;
@@ -54,7 +63,7 @@ function affichage(mape,perso,ennemies){
         mape=map.terrain;
         for( x in range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
                 for( y in range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
-                        if( x>=0 && y>=0 && x<mape.lenght && y<mape[0].length){
+                        if( x>=0 && y>=0 && x<mape.length && y<mape[0].length){
                                 m=mape[x][y];
                                 context.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
                         }
@@ -109,11 +118,11 @@ class Perso{
                 this.datt=dt.getTime();
                 this.dupdate=dt.getTime();
                 //keys
-                this.kup="Up";
-                this.kdown="Down";
-                this.kleft="Left";
-                this.kright="Left";
-                this.katt="Space";
+                this.kup="ArrowUp";
+                this.kdown="ArrowDown";
+                this.kleft="ArrowLeft";
+                this.kright="ArrowRight";
+                this.katt=" ";
                 //data
                 this.vie_tot=100;
                 this.vie=this.vie_tot;
@@ -127,38 +136,38 @@ class Perso{
         }
         bouger(aa){
                 var dt=new Date();
-                if(aa==this.kup && dt.getTime-this.dkup>=this.tk){
+                if(aa==this.kup && dt.getTime()-this.dkup>=this.tk){
                         this.dkup=dt.getTime();
                         this.py-=this.vit;
                         //verif collision
-                        c=getCollisionWithMap(this);
+                        var c=getCollisionWithMap(this);
                         if(c==true) this.py+=this.vit+1;
                 }
                 else if(aa==this.kdown && dt.getTime()-this.dkdown>=this.tk){
                         this.dkdown=dt.getTime();
                         this.py+=this.vit;
                         //verif collision
-                        c=getCollisionWithMap(this);
+                        var c=getCollisionWithMap(this);
                         if(c==true) this.py-=this.vit+1
                 }
                 else if(aa==this.kleft && dt.getTime()-this.dkleft>=this.tk){
                         this.dkleft=dt.getTime();
                         this.px-=this.vit;
                         //verif collision
-                        c=getCollisionWithMap(this);
+                        var c=getCollisionWithMap(this);
                         if(c==true) this.px+=this.vit+1;
                 }
                 else if(aa==this.kright && dt.getTime()-this.dkright>=this.tk){
                         this.dkright=dt.getTime();
                         this.px+=this.vit;
                         //verif collision
-                        c=getCollisionWithMap(this);
+                        var c=getCollisionWithMap(this);
                         if(c==true) this.px-=this.vit+1;
                 }
                 else if(aa==this.katt && dt.getTime()-this.datt>=this.tatt){
                         this.datt=dt.getTime();
-                        len=getEnemiesTouches(this);
-                        dgts=this.degats[0]+Math.random()*(this.degats[1]-this.degats[0]);
+                        var len=getEnemiesTouches(this);
+                        var dgts=this.degats[0]+Math.random()*(this.degats[1]-this.degats[0]);
                         for( l in len ){
                                 aa=Math.random()*100;
                                 if( aa <= l.esquive && l.def<dgts) l.vie=dgts-l.def;
@@ -176,6 +185,18 @@ class Perso{
 }
 
 
+var kpress="";
+
+document.addEventListener('keydown', (event) => {
+    const nomTouche = event.key;
+    kpress=nomTouche;
+}, false);
+
+document.addEventListener('keyup', (event) => {
+    const nomTouche = event.key;
+    kpress="";
+}, false);
+
 function main(){
         perso=new Perso(50,50);
         mape=new Map();
@@ -184,6 +205,8 @@ function main(){
 
         function mainboucle(){
                 perso.update();
+                perso.bouger(kpress);
+                console.log(kpress);
                 affichage(mape,perso,enemies);
                 if(encour) window.requestAnimationFrame(mainboucle);
         }
