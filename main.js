@@ -48,6 +48,9 @@ function Map(nom){this.terrain=mape;
 var map=new Map("mape");
 
 
+keys=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "];
+kpress=[false       ,   false           ,false           , false             , false];
+
 tc=32
 cam=[0,0]
 
@@ -61,6 +64,7 @@ function range(start, end) {
 
 function affichage(mape,perso,ennemies){
         mape=map.terrain;
+        context.fillStyle=" rgb(0,0,0) ";
         for( x in range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
                 for( y in range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
                         if( x>=0 && y>=0 && x<mape.length && y<mape[0].length){
@@ -71,8 +75,23 @@ function affichage(mape,perso,ennemies){
         }
         for(e in enemies){
                 context.drawImage( e.img , cam[0]+e.px , cam[1]+e.py , e.tx, e.ty);
+               //vie de l'ennemie:
+                context.fillStyle = "rgb(200,0,0)";
+                context.strokeStyle = " rgb(20,0,0) ";
+                context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx) 5 );
+                context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
         }
         context.drawImage( perso.img , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
+        //vie du personnage:
+        context.fillStyle = "rgb(200,0,0)";
+        context.strokeStyle = " rgb(20,0,0) ";
+        context.fillRect( 15, 15, int(perso.vie/perso.vie_tot*200), 20 );
+        context.strokeRect( 15, 15, 200, 20);
+        //mana du personnage:
+        context.fillStyle = "rgb(0,100,200)";
+        context.strokeStyle = " rgb(0,0,20) ";
+        context.fillRect( 15, 40, int(perso.mana/perso.mana_tot*200), 5 );
+        context.strokeRect( 15, 40, 200, 5);
 }
 
 function getCollisionWithMap(perso){
@@ -185,28 +204,29 @@ class Perso{
 }
 
 
-var kpress="";
 
 document.addEventListener('keydown', (event) => {
     const nomTouche = event.key;
-    kpress=nomTouche;
+    kpress[ key.indexOf(nomTouche) ]= true;
 }, false);
 
 document.addEventListener('keyup', (event) => {
     const nomTouche = event.key;
-    kpress="";
+    kpress=[ key.indexOf(nomTouche) ]= false;
 }, false);
 
 function main(){
-        perso=new Perso(50,50);
+        perso=new Perso(400,450);
         mape=new Map();
         enemies=[];
         encour=true;
 
         function mainboucle(){
                 perso.update();
-                perso.bouger(kpress);
-                console.log(kpress);
+                for(x=0;x==keypress.length;x++){
+                        if( keypress[x] )  perso.bouger( key[x] );
+                }
+                cam=[-perso.px+tex/2,-perso.py+tey/2];
                 affichage(mape,perso,enemies);
                 if(encour) window.requestAnimationFrame(mainboucle);
         }
