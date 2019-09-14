@@ -65,6 +65,7 @@ function range(start, end) {
 function affichage(mape,perso,ennemies){
         mape=map.terrain;
         context.fillStyle=" rgb(0,0,0) ";
+        context.fillRect(0,0,tex,tey);
         for( x in range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
                 for( y in range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
                         if( x>=0 && y>=0 && x<mape.length && y<mape[0].length){
@@ -78,7 +79,7 @@ function affichage(mape,perso,ennemies){
                //vie de l'ennemie:
                 context.fillStyle = "rgb(200,0,0)";
                 context.strokeStyle = " rgb(20,0,0) ";
-                context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx) 5 );
+                context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx), 5 );
                 context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
         }
         context.drawImage( perso.img , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
@@ -207,12 +208,12 @@ class Perso{
 
 document.addEventListener('keydown', (event) => {
     const nomTouche = event.key;
-    kpress[ key.indexOf(nomTouche) ]= true;
+    kpress[ keys.indexOf(nomTouche) ] = true;
 }, false);
 
 document.addEventListener('keyup', (event) => {
     const nomTouche = event.key;
-    kpress=[ key.indexOf(nomTouche) ]= false;
+    kpress[ keys.indexOf(nomTouche) ] = false;
 }, false);
 
 function main(){
@@ -223,8 +224,10 @@ function main(){
 
         function mainboucle(){
                 perso.update();
-                for(x=0;x==keypress.length;x++){
-                        if( keypress[x] )  perso.bouger( key[x] );
+                for(x=0;x<keys.length;x++){
+                        if( kpress[x] ){
+                            perso.bouger( keys[x] );
+                        }
                 }
                 cam=[-perso.px+tex/2,-perso.py+tey/2];
                 affichage(mape,perso,enemies);
