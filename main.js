@@ -118,7 +118,7 @@ function randomchoice(lst){ return lst[int(Math.random()*lst.length)]; }
 
 function range(start, end) {
     var lst = [];
-    for (let i = start; i <= end; i++) lst.push(i);
+    for ( i = start; i <= end; i++) lst.push(i);
     return lst;
 }
 
@@ -178,7 +178,7 @@ function getCollisionWithMap(perso){
         return iscollision;
 }
 
-function dist( p1,p2){ return Math.sqrt( (p1[0]-p2[0])**2 + (p1[1]-p2[1])**2 ); }
+function dist( p1,p2){ return Math.sqrt( Math.pow( (p1[0]-p2[0]),2) + Math.pow((p1[1]-p2[1]),2) ); }
 
 function getEnemiesTouches(perso,enemies){
         px=perso.px+perso.tx/2;
