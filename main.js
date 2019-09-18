@@ -316,7 +316,7 @@ class Perso{
                 }
             }
         }
-        update(){
+        update(enemies){
                 var dt=new Date();
                 if( !this.mort && this.vie<0 ){
                     this.mort=true;
@@ -365,11 +365,11 @@ class Bot{
     update(perso){
         if( this.p.isia ){
             if( this.p.tipe == 2 ){
-                px=perso.px+perso.tx/2;
-                py=perso.py+perso.ty/2;
-                mx=this.p.px+this.p.tx/2;
-                my=this.p.py+this.p.ty/2;
-                dd=dist([px,py],[mx,my])
+                var px=perso.px+perso.tx/2;
+                var py=perso.py+perso.ty/2;
+                var mx=this.p.px+this.p.tx/2;
+                var my=this.p.py+this.p.ty/2;
+                var dd=dist([px,py],[mx,my])
                 if( dd <= this.p.dist_reco_en ){
                     if( dd <= this.p.portee ){
                         this.p.bouger(" ");
@@ -380,11 +380,11 @@ class Bot{
                 }
             }
             if( !this.p.is_imobil ){
-                mvs=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
-                mvp=[0,1,2,3];
+                var mvs=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"];
+                var mvp=[0,1,2,3];
                 for( x=0 ; x==20 ; x++ ) mvp.push( this.p.sens );
-                m=randomchoice(mvp);
-                this.p.bouger( mvs,ennemies );
+                var m=randomchoice(mvp);
+                this.p.bouger( mvs,enemies );
             }
         }
     }
@@ -409,20 +409,22 @@ function main(){
         for( x=0 ; x<10 ; x++ ){
             e=new Perso(100,100,0,true,2,prs,false);
             enemies.push( e );
-            bots.push( new Bot(enemies[x]) );
+            bb=new Bot(enemies[x]);
+            bots.push( bb );
         }
         
         encour=true;
 
         function mainboucle(){
-                perso.update();
+                perso.update(enemies);
                 for(x=0;x<keys.length;x++){
                         if( kpress[x] ){
-                            perso.bouger( keys[x],enemies );
+                            perso.bouger( keys[x] );
                         }
                 }
-                for( b in bots ){
-                    b.update(perso);
+                for( x=0 ; x<bots.length; x++){
+                    b=bots[x];
+                    b.update(perso,enemies);
                 }
                 cam=[-perso.px+tex/2,-perso.py+tey/2];
                 affichage(mape,perso,enemies);
