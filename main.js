@@ -107,9 +107,9 @@ tc=32
 cam=[0,0]
 
 
-//0=nom , 1=vie , 2=mana , 3=degats , 4=portee , 5=t regen vie , 6=t regen mana , 7=t att, 8=vitesse , 9=dist reconnaitre ennemis , 10=anims 
+//0=nom , 1=vie , 2=mana , 3=degats , 4=portee , 5=t regen vie , 6=t regen mana , 7=t att, 8=vitesse , 9=dist reconnaitre ennemis , 10=esquive , 11=defense , 12=anims 
 var prs=[
-["Yui",100,100,[1,7],tc,500,500,500,3   ,  100 , [ [p1a1,p1a2,p1a3,p1a4,p1a5,p1a6,p1a7] , [p1b1,p1b2,p1b3,p1b4,p1b5,p1b6,p1b7,p1b8] , [p1c1,p1c2,p1c3,p1c4,p1c5,p1c6,p1c7,p1c8,p1c9] , [p1d1,p1d2,p1d3,p1d4,p1d5,p1d6] , [p1e1,p1e2,p1e3,p1e4,p1e5,p1e6,p1e7,p1e8,p1e9,p1e10,p1e11,p1e12,p1e13] , [p1f1,p1f2,p1f3,p1f4,p1f5,p1f6] , [p1a1] ] ]
+["Yui",100,100,[1,7],tc,500,500,500,3   ,  100 , 80 , 1 , [ [p1a1,p1a2,p1a3,p1a4,p1a5,p1a6,p1a7] , [p1b1,p1b2,p1b3,p1b4,p1b5,p1b6,p1b7,p1b8] , [p1c1,p1c2,p1c3,p1c4,p1c5,p1c6,p1c7,p1c8,p1c9] , [p1d1,p1d2,p1d3,p1d4,p1d5,p1d6] , [p1e1,p1e2,p1e3,p1e4,p1e5,p1e6,p1e7,p1e8,p1e9,p1e10,p1e11,p1e12,p1e13] , [p1f1,p1f2,p1f3,p1f4,p1f5,p1f6] , [p1a1] ] ]
 ];
 
 function int(n){ return parseInt(n); }
@@ -123,7 +123,7 @@ function range(start, end) {
 }
 
 function rcollision( r1 , r2 ){
-    if (r1[0] < r2[0] + r[2] && r1[0] + r1[2] > r2[0] && r1[1] < r2[1] + r2[3] && r1[3] + r1[1] > r2[1]) return false;
+    if (r1[0] < r2[0] + r2[0] && r1[0] + r1[2] > r2[0] && r1[1] < r2[1] + r2[3] && r1[3] + r1[1] > r2[1]) return false;
     return false;
 }
 
@@ -186,12 +186,17 @@ function getCollisionWithMap(perso){
 
 function dist( p1,p2){ return Math.sqrt( Math.pow( (p1[0]-p2[0]),2) + Math.pow((p1[1]-p2[1]),2) ); }
 
-function getEnemiesTouches(perso,enemies){
+function getEnemiesTouches(perso,enemies,pr){
         px=perso.px+perso.tx/2;
         py=perso.py+perso.ty/2;
         lst=[];
         for( e of enemies ){
-                if( dist([px,py],[e.px+e.tx/2,e.py+e.ty/2]) < perso.portee ) lst.push( e )
+            if( dist([px,py],[e.px+e.tx/2,e.py+e.ty/2]) < perso.portee && perso.tipe != e.tipe && e.vie>0){
+                    lst.push( e );
+            }
+        }
+        if( dist([px,py],[pr.px+pr.tx/2,pr.py+pr.ty/2]) < perso.portee && perso.tipe!=pr.tipe && pr.vie>0){
+            lst.push( pr );
         }
         return lst;
 }
@@ -241,22 +246,25 @@ class Perso{
                 this.degats=prs[tp][3];
                 this.portee=prs[tp][4];
                 this.tatt=prs[tp][7];
+                this.esquive=prs[tp][10];
                 this.dist_reco_en=prs[tp][9];
+                this.def=prs[tp][11];
                 this.is_imobil=isimo; // pour les bots ( si le bot bouge ou pas )
                 //images
                 this.sens=0;
-                this.an_1=prs[tp][10][0];
-                this.an_2=prs[tp][10][1];
-                this.an_3=prs[tp][10][2];
-                this.an_4=prs[tp][10][3];
-                this.an_5=prs[tp][10][4];
-                this.an_6=prs[tp][10][5];
-                this.an_7=prs[tp][10][6];
+                var anims=prs[tp][12];
+                this.an_1=anims[0];
+                this.an_2=anims[1];
+                this.an_3=anims[2];
+                this.an_4=anims[3];
+                this.an_5=anims[4];
+                this.an_6=anims[5];
+                this.an_7=anims[6];
                 this.imgs=this.an_7;
                 this.an=0;
                 this.img=this.imgs[this.an];
         }
-        bouger(aa,ennemies){
+        bouger(aa,enemies,perso){
             if( !this.mort){
                 var dt=new Date();
                 if(aa==this.kup && dt.getTime()-this.dkup>=this.tk){
@@ -309,11 +317,13 @@ class Perso{
                 }
                 else if(aa==this.katt && dt.getTime()-this.datt>=this.tatt){
                         this.datt=dt.getTime();
-                        var len=getEnemiesTouches(this,ennemies);
-                        var dgts=this.degats[0]+Math.random()*(this.degats[1]-this.degats[0]);
-                        for( l of len ){
-                                aa=Math.random()*100;
-                                if( aa <= l.esquive && l.def<dgts) l.vie=dgts-l.def;
+                        var len=getEnemiesTouches(this,enemies,perso);
+                        var dgts=this.degats[0]+int(Math.random()*(this.degats[1]-this.degats[0]));
+                        for( var l of len ){
+                                aa=int(Math.random()*100);
+                                if( aa <= l.esquive && l.def<dgts){
+                                    l.vie-=dgts-l.def;
+                                }
                         }
                         if( this.imgs!=this.an_4){
                             this.imgs=this.an_4;
@@ -364,10 +374,10 @@ class Perso{
                     var dd=dist([px,py],[mx,my])
                     if( dd <= this.dist_reco_en ){
                         if( dd <= this.portee ){
-                            this.bouger(" ");
+                            this.bouger(" ",enemies,perso);
                         }
                         else{
-                            bouger_ia( this , [this.px,this.py] , [px,py] , enemies );
+                            bouger_ia( this , [this.px,this.py] , [px,py] , enemies , perso );
                         }
                     }
                 }
@@ -376,18 +386,18 @@ class Perso{
                     var mvp=[0,1,2,3];
                     for( x=0 ; x==20 ; x++ ) mvp.push( this.sens );
                     var m=randomchoice(mvp);
-                    this.bouger( mvs,enemies );
+                    this.bouger( mvs,enemies,perso );
                 }
         }
         }
 }
 
-function bouger_ia( b , p1 , p2 , enemies ){ //p1=position du bot , p2=position de la cible
+function bouger_ia( b , p1 , p2 , enemies ,perso){ //p1=position du bot , p2=position de la cible
     if( true ){
-        if( p1[0] < p2[0] ) b.bouger( "ArrowRight" ,enemies);
-        else if( p1[0] > p2[0] ) b.bouger("ArrowLeft",enemies);
-        if( p1[1] < p2[1] ) b.bouger("ArrowDown",enemies);
-        else if( p1[1] > p2[1] ) b.bouger("ArrowUp",enemies);
+        if( p1[0] < p2[0] ) b.bouger( "ArrowRight" ,enemies,perso);
+        else if( p1[0] > p2[0] ) b.bouger("ArrowLeft",enemies,perso);
+        if( p1[1] < p2[1] ) b.bouger("ArrowDown",enemies,perso);
+        else if( p1[1] > p2[1] ) b.bouger("ArrowUp",enemies,perso);
     }
 }
 
@@ -428,7 +438,7 @@ function main(){
                 perso.update(enemies,perso);
                 for(x=0;x<keys.length;x++){
                         if( kpress[x] ){
-                            perso.bouger( keys[x] );
+                            perso.bouger( keys[x] , enemies , perso);
                         }
                 }
                 for ( var b of bots ){
