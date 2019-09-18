@@ -132,8 +132,8 @@ function affichage(mape,perso,bots){
         mape=map.terrain;
         context.fillStyle=" rgb(0,0,0) ";
         context.fillRect(0,0,tex,tey);
-        for( x in range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
-                for( y in range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
+        for( x of range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
+                for( y of range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
                         if( x>=0 && y>=0 && x<mape[0].length && y<mape.length){
                                 m=mape[y][x];
                                 context.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
@@ -171,8 +171,8 @@ function affichage(mape,perso,bots){
 
 function getCollisionWithMap(perso){
         iscollision=false;
-        for( x in range(int(perso.px/tc)-1,int(perso.px/tc)+1) ){
-            for( y in range(int(perso.py/tc)-1,int(perso.py/tc)+1) ){
+        for( x of range(int(perso.px/tc)-1,int(perso.px/tc)+1) ){
+            for( y of range(int(perso.py/tc)-1,int(perso.py/tc)+1) ){
                 m=map.terrain[y][x];
                 if( emape[m][0] == 1 ){
                     if( rcollision( (perso.px,perso.py,perso.tx,perso.ty) , (x*tc,y*tc,tc,tc) ) ){
@@ -190,7 +190,7 @@ function getEnemiesTouches(perso,enemies){
         px=perso.px+perso.tx/2;
         py=perso.py+perso.ty/2;
         lst=[];
-        for( e in enemies ){
+        for( e of enemies ){
                 if( dist([px,py],[e.px+e.tx/2,e.py+e.ty/2]) < perso.portee ) lst.push( e )
         }
         return lst;
@@ -311,7 +311,7 @@ class Perso{
                         this.datt=dt.getTime();
                         var len=getEnemiesTouches(this,ennemies);
                         var dgts=this.degats[0]+Math.random()*(this.degats[1]-this.degats[0]);
-                        for( l in len ){
+                        for( l of len ){
                                 aa=Math.random()*100;
                                 if( aa <= l.esquive && l.def<dgts) l.vie=dgts-l.def;
                         }
