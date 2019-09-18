@@ -141,6 +141,7 @@ function affichage(mape,perso,enemies){
                 }
         }
         for(e in enemies){
+            if(typeof( e.img ) in [HTMLImageElement, SVGImageElement, HTMLCanvasElement, HTMLVideoElement, ImageBitmap]){
                 context.drawImage( e.img , cam[0]+e.px , cam[1]+e.py , e.tx, e.ty);
                 //vie de l'ennemie:
                 if( e.vie < e.vie_tot ){
@@ -149,6 +150,7 @@ function affichage(mape,perso,enemies){
                     if( e.vie > 0 ) context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx), 5 );
                     context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
                 }
+            }
         }
         context.drawImage( perso.img , 0 ,64*perso.sens ,64 ,64 , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
         //vie du personnage:
@@ -362,7 +364,7 @@ class Bot{
     constructor(p){
         this.p=p;
     }
-    update(perso){
+    update(perso,enemies){
         if( this.p.isia ){
             if( this.p.tipe == 2 ){
                 var px=perso.px+perso.tx/2;
@@ -422,7 +424,7 @@ function main(){
                             perso.bouger( keys[x] );
                         }
                 }
-                for( x=0 ; x<bots.length; x++){
+                for( x=0 ; x==bots.length; x++){
                     b=bots[x];
                     b.update(perso,enemies);
                 }
