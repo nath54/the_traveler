@@ -123,7 +123,7 @@ function range(start, end) {
 }
 
 function rcollision( r1 , r2 ){
-    if (r1[0] < r2[0] + r2[0] && r1[0] + r1[2] > r2[0] && r1[1] < r2[1] + r2[3] && r1[3] + r1[1] > r2[1]) return false;
+    if (r1[0] < r2[0] + r2[2] && r1[0] + r1[2] > r2[0] && r1[1] < r2[1] + r2[3] && r1[3] + r1[1] > r2[1]) return false;
     return false;
 }
 
@@ -366,7 +366,7 @@ class Perso{
                 }
             //partie bot
             if( this.isia ){
-                if( this.tipe == 2 ){
+                if( this.tipe == 2 && perso.vie>0){
                     var px=perso.px+perso.tx/2;
                     var py=perso.py+perso.ty/2;
                     var mx=this.px+this.tx/2;
