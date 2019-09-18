@@ -128,7 +128,7 @@ function rcollision( r1 , r2 ){
 }
 
 
-function affichage(mape,perso,enemies){
+function affichage(mape,perso,bots){
         mape=map.terrain;
         context.fillStyle=" rgb(0,0,0) ";
         context.fillRect(0,0,tex,tey);
@@ -140,9 +140,11 @@ function affichage(mape,perso,enemies){
                         }
                 }
         }
-        for(e in enemies){
-            if(typeof( e.img ) in [HTMLImageElement, SVGImageElement, HTMLCanvasElement, HTMLVideoElement, ImageBitmap]){
-                context.drawImage( e.img , cam[0]+e.px , cam[1]+e.py , e.tx, e.ty);
+        for(x=0 ; x<bots.length ; x++){
+            var ee=bots[x];
+            var e = ee.p;
+            try{
+                context.drawImage( e.img , 0 , 64*e.sens , 64 ,64, cam[0]+e.px , cam[1]+e.py , e.tx, e.ty);
                 //vie de l'ennemie:
                 if( e.vie < e.vie_tot ){
                     context.fillStyle = "rgb(200,0,0)";
@@ -150,6 +152,8 @@ function affichage(mape,perso,enemies){
                     if( e.vie > 0 ) context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx), 5 );
                     context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
                 }
+            }
+            catch{
             }
         }
         context.drawImage( perso.img , 0 ,64*perso.sens ,64 ,64 , cam[0]+perso.px , cam[1]+perso.py , perso.tx, perso.ty);
@@ -409,7 +413,9 @@ function main(){
         var bots=[];
         
         for( x=0 ; x<10 ; x++ ){
-            e=new Perso(100,100,0,true,2,prs,false);
+            var rx=100+Math.random()*500;
+            var ry=100+Math.random()*500;
+            e=new Perso(rx,ry,0,true,2,prs,false);
             enemies.push( e );
             bb=new Bot(enemies[x]);
             bots.push( bb );
@@ -429,7 +435,7 @@ function main(){
                     b.update(perso,enemies);
                 }
                 cam=[-perso.px+tex/2,-perso.py+tey/2];
-                affichage(mape,perso,enemies);
+                affichage(mape,perso,bots);
                 if(encour) window.requestAnimationFrame(mainboucle);
         }
         window.requestAnimationFrame(mainboucle);
