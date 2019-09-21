@@ -1,13 +1,13 @@
 #coding:utf-8
 
-import random , pygame , time , os
+import random , pygame , time , os , numpy
 from pygame.locals import *
 
 pygame.init()
 
 tex,tey=1200,720
 fenetre=pygame.display.set_mode([tex,tey])
-font=pygame.display.SysFont("Arial",20)
+font=pygame.font.SysFont("Arial",20)
 
 pygame.key.set_repeat( 40 , 30 )
 
@@ -19,7 +19,7 @@ tc=50
 
 nmape=[]
 for e in emape:
-    nmape.append( [ e,pygame.transform.scale(pygame.image.load(e))] )
+    nmape.append( [ e,pygame.transform.scale(pygame.image.load(e),[tc,tc])] )
 
 def load():
     f=open( "mape.nath" , "r") .read().split(cac)
@@ -45,16 +45,17 @@ def save(mape):
     f.write( txt )
     f.close()
 
+print("création de la mape")
 if "mape.nath" in os.listdir("./"):
     mape=load()
 else:
-    print("création de la mape")
-    mtx,mty=100000,100000
+    mtx,mty=1000,1000
     mape=numpy.zeros([mtx,mty],dtype=int)
     for x in range(mtx):
         for y in range(mty):
             mape[x,y]=0
     save(mape)
+print("finit")
 
 cam=[0,0]
 
@@ -63,16 +64,17 @@ def aff(mape,pos,fps):
     for x in range( int( (-cam[0])/tc ) , int( (-cam[0]+tex)/tc ) ):
         for y in range( int( (-cam[1])/tc ) , int( (-cam[1]+tey)/tc ) ):
             if x >= 0 and y >= 0 and x < mape.shape[0] and y < mape.shape[1]:
-            fenetre.blit(  nmape[mape[x,y]][1] , [cam[0]+x*tc,cam[1]+y*tc] )
+                fenetre.blit(  nmape[mape[x,y]][1] , [cam[0]+x*tc,cam[1]+y*tc] )
     mx,my=int(pos[0]/tc),int(pos[1]/tc)
-    for x in range(mx-tcurs,mx+tcurs):
-        for y in range(my-tcurs,my+tcurs):
+    for x in range(mx-tcurs,mx+tcurs+1):
+        for y in range(my-tcurs,my+tcurs+1):
             pygame.draw.rect( fenetre , (0,0,150) , (cam[0]+x*tc,cam[1]+y*tc,tc,tc) , 1 )
     fenetre.blit( font.render("fps="+str(fps),True,(255,255,255)), [15,15])
     pygame.display.update()
 
+isclick=False
 vit=tc
-msel=0
+msel=1
 fps=0
 tcurs=0
 encour=True
@@ -92,12 +94,13 @@ while encour:
             elif event.key==K_LEFT: cam[0]+=vit
             elif event.key==K_RIGHT: cam[0]-=vit
         elif event.type==MOUSEBUTTONDOWN:
-            if event.button==2 and tcurs < 30: tcurs+=1
-            elif event.button==3 and tcurs > 0: tcurs-=1
+            print( event.button )
+            if event.button==4 and tcurs < 30: tcurs+=1
+            elif event.button==5 and tcurs > 0: tcurs-=1
             else:
                 isclick=True
         elif event.type==MOUSEBUTTONUP:
-            if event.button==2 or event.button==3:
+            if event.button==4 or event.button==5:
                 pass
             else:
                 isclick=False
