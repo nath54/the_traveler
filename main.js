@@ -181,8 +181,10 @@ function affichage(mape,perso,bots){
                 if( e.vie < e.vie_tot ){
                     context.fillStyle = "rgb(200,0,0)";
                     context.strokeStyle = " rgb(20,0,0) ";
-                    if( e.vie > 0 ) context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx), 5 );
-                    context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
+                    if( e.vie > 0){
+                        context.fillRect( cam[0]+e.px, cam[1]+e.py-10, int(e.vie/e.vie_tot*e.tx), 5 );
+                        context.strokeRect( cam[0]+e.px, cam[1]+e.py-10, e.tx, 5);
+                    }
                 }
             }
             catch{
