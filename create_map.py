@@ -1,0 +1,93 @@
+#coding:utf-8
+
+import random , pygame , time , os
+from pygame.locals import *
+
+pygame.init()
+
+tex,tey=1200,720
+
+fenetre=pygame.display.set_mode([tex,tey])
+
+font=pygame.display.SysFont("Arial",20)
+
+emape=["images/sols/dirt_full_new.png","images/sols/black_cobalt_7.png","images/sols/acidic_floor_0.png","images/sols/bog_green_1_new.png","images/sols/cage_1.png","images/sols/cobble_blood_1_new.png","images/sols/crypt_10.png" ,"images/sols/crypt_domino_2a.png" ,"images/sols/crystal_floor_0.png" ,"images/sols/demonic_red_1.png" ,"images/sols/dirt_0_new.png" ,"images/sols/etched_0.png" ,"images/sols/floor_nerves_0.png" ,"images/sols/floor_sand_rock_0.png" ,"images/sols/floor_vines_0_new.png" ,"images/sols/frozen_0.png" ,"images/sols/green_bones_1.png" ,"images/sols/hive_0.png" ,"images/sols/ice_0_new.png" ,"images/sols/infernal_1.png" ,"images/sols/labyrinth_0.png" ,"images/sols/lair_0_new.png","images/sols/lava_0.png" ,"images/sols/mesh_0_new.png" ,"images/sols/mosaic_0.png" ,"images/sols/mud_0.png" ,"images/sols/moss_0.png" ,"images/sols/orc_0.png","images/sols/pebble_brown_0_new.png" ,"images/sols/pedestal_full.png" ,"images/sols/rect_gray_0_new.png" ,"images/sols/rough_red_0.png" ,"images/sols/sand_1.png" ,"images/sols/sandstone_floor_0.png" ,"images/sols/swamp_0_new.png" ,"images/sols/tomb_0_new.png" ,"images/sols/volcanic_floor_0.png" ,"images/sols/white_marble_0.png" ,"images/murs/catacombs_0.png" ,"images/murs/bars_red_1.png" ,"images/murs/beehives_0.png" ,"images/murs/brick_brown_0.png" ,"images/murs/brick_brown-vines_1.png" ,"images/murs/brick_dark_0.png" ,"images/murs/catacombs_15.png" ,"images/murs/church_0.png" ,"images/murs/cobalt_rock_1.png" ,"images/murs/cobalt_stone_1.png" ,"images/murs/crystal_wall_0.png" ,"images/murs/crystal_wall_lightblue.png" ,"images/murs/crystal_wall_lightcyan.png" ,"images/murs/crystal_wall_lightgray.png" ,"images/murs/crystal_wall_lightgreen.png" ,"images/murs/crystal_wall_lightmagenta.png" ,"images/murs/crystal_wall_lightred.png" ,"images/murs/crystal_wall_magenta.png" ,"images/murs/crystal_wall_red.png" ,"images/murs/crystal_wall_white.png" ,"images/murs/crystal_wall_yellow.png" ,"images/murs/emerald_1.png" ,"images/murs/green_crystal_wall.png" ,"images/murs/hell_1.png" ,"images/murs/hive_0.png" ,"images/murs/lab-metal_0.png" ,"images/murs/lab-rock_0.png" ,"images/murs/lab-stone_0.png" ,"images/murs/lair_0_new.png" ,"images/murs/marble_wall_1.png" ,"images/murs/metal_wall.png" ,"images/murs/metal_wall_brown.png","images/murs/metal_wall_cracked.png" ,"images/murs/metal_wall_white_0.png" ,"images/murs/mirrored_wall_new.png" ,"images/murs/orc_0.png" ,"images/murs/pebble_red_0_new.png" ,"images/murs/permarock_clear_red_0.png" ,"images/murs/permarock_red_0.png" ,"images/murs/relief_0.png" ,"images/murs/relief_brown_0.png" ,"images/murs/sandstone_wall_0.png" ,"images/murs/shoals_wall_1.png" ,"images/murs/silver_wall.png" ,"images/murs/slime_0_new.png" ,"images/murs/slime_stone_0.png" ,"images/murs/snake_0.png" ,"images/murs/stone_2_brown_0.png" ,"images/murs/stone_2_dark_0.png" ,"images/murs/stone_2_gray_0.png" ,"images/murs/stone_black_marked_0.png" ,"images/murs/stone_brick_1.png" ,"images/murs/stone_dark_0.png" ,"images/murs/stone_gray_0.png" ,"images/murs/stone2_brown_2_new.png" ,"images/murs/stone2_dark_2_new.png" ,"images/murs/stone2_gray_2_new.png" ,"images/murs/tomb_0.png" ,"images/murs/transparent_flesh.png" ,"images/murs/transparent_stone.png" ,"images/murs/transparent_wall_new.png" ,"images/murs/undead_0.png" ,"images/murs/undead_brown_0.png" ,"images/murs/vault_0.png" ,"images/murs/volcanic_wall_0.png" ,"images/murs/wall_flesh_0.png","images/murs/wall_vines_0.png" ,"images/murs/wall_yellow_rock_0.png" ,"images/murs/wax_wall_new.png" ,"images/murs/zot_blue_0_new.png"]
+
+cac,cacc="#","|"
+
+tc=50
+
+nmape=[]
+for e in emape:
+    nmape.append( [ e,pygame.transform.scale(pygame.image.load(e))] )
+
+def load():
+    f=open( "mape.nath" , "r") .read().split(cac)
+    ff=[]
+    for g in f:
+        ff.append( g.split(cacc) )
+    mtx=len(ff)
+    mty=len(ff[0])
+    mape=numpy.zeros([mtx,mty],dtype=int)
+    for x in range(mtx):
+        for y in range(mty):
+            mape[x,y]=int(ff[x][y])
+    return mape
+
+def save(mape):
+    txt=""
+    for x in range( mape.shape[0] ):
+        for y in range( mape.shape[1] ):
+            txt+=str(mape[x,y])+cacc
+        txt=txt[:-1]+cac
+    txt=txt[:-1]
+    f=open( "mape.nath" , "w")
+    f.write( txt )
+    f.close()
+
+if "mape.nath" in os.listdir("./"):
+    mape=load()
+else:
+    mtx,mty=1000000,1000000
+    mape=numpy.zeros([mtx,mty],dtype=int)
+    for x in range(mtx):
+        for y in range(mty):
+            mape[x,y]=0
+
+cam=[0,0]
+
+def aff():
+    fenetre.fill((0,0,0))
+    pygame.display.update()
+
+
+encour=True
+while encour:
+    for event in pygame.event.get():
+        if event.type==QUIT:
+            save(mape)
+            exit()
+        elif event.type==KEYDOWN:
+            if event.key==K_ESCAPE:
+                encour=False
+        elif event.type==MOUSEBUTTONDOWN:
+            isclick=True
+        elif event.type==MOUSEBUTTONUP:
+            isclick=False
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
