@@ -59,19 +59,24 @@ print("finit")
 
 cam=[0,0]
 
-def aff(mape,pos,fps):
+def aff(mape,pos,fps,msel,tcurs):
     fenetre.fill((0,0,0))
     for x in range( int( (-cam[0])/tc ) , int( (-cam[0]+tex)/tc ) ):
         for y in range( int( (-cam[1])/tc ) , int( (-cam[1]+tey)/tc ) ):
             if x >= 0 and y >= 0 and x < mape.shape[0] and y < mape.shape[1]:
                 fenetre.blit(  nmape[mape[x,y]][1] , [cam[0]+x*tc,cam[1]+y*tc] )
-    mx,my=int(pos[0]/tc),int(pos[1]/tc)
+    mx,my=int(cam[0]+pos[0]/tc),int(cam[1]+pos[1]/tc)
     for x in range(mx-tcurs,mx+tcurs+1):
         for y in range(my-tcurs,my+tcurs+1):
-            pygame.draw.rect( fenetre , (0,0,150) , (cam[0]+x*tc,cam[1]+y*tc,tc,tc) , 1 )
+            pygame.draw.rect( fenetre , (0,0,150) , (x*tc,y*tc,tc,tc) , 1 )
+    fenetre.blit( pygame.transform.scale( nmape[msel][1] , [100,100]) , [15,50] )
+    fenetre.blit( font.render(nmape[msel][0],True,(255,255,255)), [15,30])
     fenetre.blit( font.render("fps="+str(fps),True,(255,255,255)), [15,15])
     pygame.display.update()
 
+
+tce=0.15
+dce=time.time()
 isclick=False
 vit=tc
 msel=1
@@ -81,7 +86,7 @@ encour=True
 while encour:
     t1=time.time()
     pos=pygame.mouse.get_pos()
-    aff(mape,pos,fps)
+    aff(mape,pos,fps,msel,tcurs)
     for event in pygame.event.get():
         if event.type==QUIT:
             save(mape)
@@ -93,21 +98,26 @@ while encour:
             elif event.key==K_DOWN: cam[1]-=vit
             elif event.key==K_LEFT: cam[0]+=vit
             elif event.key==K_RIGHT: cam[0]-=vit
+            elif event.key==K_PAGEDOWN and msel>0 and time.time()-dce>=tce:
+                dce=time.time()
+                msel-=1
+            elif event.key==K_PAGEUP and msel<len(nmape)-1 and time.time()-dce >=tce:
+                dce=time.time()
+                msel+=1
         elif event.type==MOUSEBUTTONDOWN:
-            print( event.button )
             if event.button==4 and tcurs < 30: tcurs+=1
             elif event.button==5 and tcurs > 0: tcurs-=1
-            else:
+            elif event.button == 1:
                 isclick=True
         elif event.type==MOUSEBUTTONUP:
             if event.button==4 or event.button==5:
                 pass
-            else:
+            elif event.button==1:
                 isclick=False
     if isclick:
-        mx,my=int(pos[0]/tc),int(pos[1]/tc)
-        for x in range(mx-tcurs,mx+tcurs):
-            for y in range(my-tcurs,my+tcurs):
+        mx,my=int(-cam[0]+pos[0]/tc),int(-cam[1]+pos[1]/tc)
+        for x in range(mx-tcurs,mx+tcurs+1):
+            for y in range(my-tcurs,my+tcurs+1):
                 if x >= 0 and y >= 0 and x < mape.shape[0] and y < mape.shape[1]:
                     mape[x,y]=msel
     tt=(time.time()-t1)
@@ -117,7 +127,7 @@ while encour:
 
 
 
-
+save(mape)
 
 
 
