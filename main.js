@@ -164,8 +164,8 @@ function affichage(mape,perso,bots){
         mape=map.terrain;
         context.fillStyle=" rgb(0,0,0) ";
         context.fillRect(0,0,tex,tey);
-        for( x of range( int(cam[0]/tc) , int((cam[0]+tex)/tc) ) ){
-                for( y of range( int(cam[1]/tc) , int((cam[1]+tey)/tc) ) ){
+        for( x of range( int(-cam[0]/tc) , int((-cam[0]+tex)/tc) ) ){
+                for( y of range( int(-cam[1]/tc) , int((-cam[1]+tey)/tc) ) ){
                         if( x>=0 && y>=0 && x<mape[0].length && y<mape.length){
                                 m=mape[y][x];
                                 context.drawImage( emape[m][2] , cam[0]+x*tc, cam[1]+y*tc, tc, tc);
