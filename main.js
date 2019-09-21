@@ -358,6 +358,7 @@ class Perso{
                                 if( aa <= l.esquive && l.def<dgts){
                                     l.vie-=dgts-l.def;
                                 }
+                                break;
                         }
                         if( this.imgs!=this.an_4){
                             this.imgs=this.an_4;
