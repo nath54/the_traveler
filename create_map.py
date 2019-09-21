@@ -45,6 +45,19 @@ def save(mape):
     f.write( txt )
     f.close()
 
+def export(mape):
+	txt="mape=["
+    for x in range( mape.shape[0] ):
+    	txt+="["
+        for y in range( mape.shape[1] ):
+            txt+=str(mape[x,y])+","
+        txt=txt[:-1]+"],"
+    txt=txt[:-1]+"];"
+    f=open( "mape.js" , "w")
+    f.write( txt )
+    f.close()
+
+
 print("création de la mape")
 if "mape.nath" in os.listdir("./"):
     mape=load()
@@ -94,6 +107,12 @@ while encour:
         elif event.type==KEYDOWN:
             if event.key==K_ESCAPE:
                 encour=False
+            elif event.key==K_s:
+            	save(mape)
+            elif event.key==K_l:
+            	mape=load()
+            elif event.key==k_e:
+            	export(mape)
             elif event.key==K_UP: cam[1]+=vit
             elif event.key==K_DOWN: cam[1]-=vit
             elif event.key==K_LEFT: cam[0]+=vit
