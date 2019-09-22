@@ -357,8 +357,21 @@ function range(start, end) {
 }
 
 function rcollision( r1 , r2 ){
-    if (r1[0] < r2[0] + r2[2] && r1[0] + r1[2] > r2[0] && r1[1] < r2[1] + r2[3] && r1[3] + r1[1] > r2[1]) return false;
-    return false;
+    x1=r1[0];
+    y1=r1[1];
+    tx1=r1[2];
+    ty1=r1[3]
+    x2=r2[0];
+    y2=r2[1];
+    tx2=r2[2];
+    ty2=r2[3];
+    cx=false;
+    cy=false;
+    if( x1 >= x2 && x1 <= x2+tx2) cx=true
+    if( x1+tx1 >= x2 && x1+tx1 <= x2+tx2) cx=true
+    if( y1 >= y2 && y1 <= y2+ty2) cy=true
+    if( y1+ty1 >= y2 && y1+ty1 <= y2+ty2) cy=true
+    return cx&&cy
 }
 
 
@@ -409,7 +422,7 @@ function getCollisionWithMap(perso){
         iscollision=false;
         for( x of range(int(perso.px/tc)-1,int(perso.px/tc)+1) ){
             for( y of range(int(perso.py/tc)-1,int(perso.py/tc)+1) ){
-                m=map.terrain[y][x];
+                m=map.terrain[x][y];
                 if( emape[m][0] == 1 ){
                     if( rcollision( (perso.px,perso.py,perso.tx,perso.ty) , (x*tc,y*tc,tc,tc) ) ){
                         iscollision=true;
