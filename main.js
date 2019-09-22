@@ -227,7 +227,6 @@ const emape=[
 [0,"tomb_0",is36],
 [0,"volcanic_floor_0",is37],
 [0,"white_marble_0",is38],
-
 [1,"catacombe0",im1],
 [1,"bars_red_1",im2],
 [1,"beehives_0",im3],
@@ -301,6 +300,7 @@ const emape=[
 
 ];
 
+/*
 var mape=[
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -325,25 +325,28 @@ var mape=[
                 [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
         ]
 
+*/
+
 function Map(nom){this.terrain=mape;
 }
 
 var map=new Map("mape");
-
+//var mtx=mape.terrain.length();
+//var mty=mape.terrain[0].length();
 
 
 
 keys=["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "];
 kpress=[false       ,   false           ,false           , false             , false];
 
-tc=32
+tc=50
 cam=[0,0]
 
 
 //0=nom , 1=vie , 2=mana , 3=degats , 4=portee , 5=t regen vie , 6=t regen mana , 7=t att, 8=vitesse , 9=dist reconnaitre ennemis , 10=esquive , 11=defense , 12=anims 
 var prs=[
-["Yui",100,100,[1,7],tc,500,500,500,3,100,80,1,[ [p1a1,p1a2,p1a3,p1a4,p1a5,p1a6,p1a7] , [p1b1,p1b2,p1b3,p1b4,p1b5,p1b6,p1b7,p1b8] , [p1c1,p1c2,p1c3,p1c4,p1c5,p1c6,p1c7,p1c8,p1c9] , [p1d1,p1d2,p1d3,p1d4,p1d5,p1d6] , [p1e1,p1e2,p1e3,p1e4,p1e5,p1e6,p1e7,p1e8,p1e9,p1e10,p1e11,p1e12,p1e13] , [p1f1,p1f2,p1f3,p1f4,p1f5,p1f6] , [p1a1] ] ],
-["Squelette",20,0,[1,5],tc,1000,1000,600,3,65,90,0,[ [p2a1,p2a2,p2a3,p2a4,p2a5,p2a6,p2a7] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2c1,p2c2,p2c3,p2c4,p2c5,p2c6,p2c7,p2c8,p2c9] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2f1,p2f2,p2f3,p2f4,p2f5,p2f6] , [p2a1] ] ]
+["Yui",100,100,[1,7],tc,500,500,500,3,tc*4,80,1,[ [p1a1,p1a2,p1a3,p1a4,p1a5,p1a6,p1a7] , [p1b1,p1b2,p1b3,p1b4,p1b5,p1b6,p1b7,p1b8] , [p1c1,p1c2,p1c3,p1c4,p1c5,p1c6,p1c7,p1c8,p1c9] , [p1d1,p1d2,p1d3,p1d4,p1d5,p1d6] , [p1e1,p1e2,p1e3,p1e4,p1e5,p1e6,p1e7,p1e8,p1e9,p1e10,p1e11,p1e12,p1e13] , [p1f1,p1f2,p1f3,p1f4,p1f5,p1f6] , [p1a1] ] ],
+["Squelette",20,0,[1,5],tc,2000,2000,600,1.5,tc*4,90,0,[ [p2a1,p2a2,p2a3,p2a4,p2a5,p2a6,p2a7] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2c1,p2c2,p2c3,p2c4,p2c5,p2c6,p2c7,p2c8,p2c9] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2b1,p2b2,p2b3,p2b4,p2b5,p2b6] , [p2f1,p2f2,p2f3,p2f4,p2f5,p2f6] , [p2a1] ] ]
 ];
 
 function int(n){ return parseInt(n); }
@@ -603,8 +606,8 @@ class Perso{
                         this.dupdate=dt.getTime();
                         if( this.px < 0 ) this.px=0;
                         if( this.py < 0 ) this.py=0;
-                        if( this.px > tex-this.tx ) this.px=tex-this.tx
-                        if( this.py > tey-this.ty ) this.py=tey-this.ty
+                        if( this.px > mape.terrain.length*tc-this.tx ) this.px=tex-this.tx
+                        if( this.py > mape.terrain[0].length*tc-this.ty ) this.py=tey-this.ty
                         if( this.vie<this.vie_tot && dt.getTime()-this.dregen_vie>=this.tregen_vie){
                             this.vie+=1;
                             this.dregen_vie=dt.getTime();
@@ -673,9 +676,9 @@ function main(){
         var enemies=[];
         var bots=[];
         
-        for( x=0 ; x<10 ; x++ ){
-            var rx=100+Math.random()*500;
-            var ry=100+Math.random()*500;
+        for( x=0 ; x<100 ; x++ ){
+            var rx=100+Math.random()*5000;
+            var ry=100+Math.random()*5000;
             e=new Perso(rx,ry,1,true,2,prs,false);
             enemies.push( e );
             bb=new Bot(enemies[x]);

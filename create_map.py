@@ -46,11 +46,11 @@ def save(mape):
     f.close()
 
 def export(mape):
-	txt="mape=["
+    txt="mape=["
     for x in range( mape.shape[0] ):
-    	txt+="["
+        txt+="["
         for y in range( mape.shape[1] ):
-            txt+=str(mape[x,y])+","
+            txt+=str(mape[y,x])+","
         txt=txt[:-1]+"],"
     txt=txt[:-1]+"];"
     f=open( "mape.js" , "w")
@@ -78,10 +78,11 @@ def aff(mape,pos,fps,msel,tcurs):
         for y in range( int( (-cam[1])/tc ) , int( (-cam[1]+tey)/tc ) ):
             if x >= 0 and y >= 0 and x < mape.shape[0] and y < mape.shape[1]:
                 fenetre.blit(  nmape[mape[x,y]][1] , [cam[0]+x*tc,cam[1]+y*tc] )
-    mx,my=int(cam[0]+pos[0]/tc),int(cam[1]+pos[1]/tc)
-    for x in range(mx-tcurs,mx+tcurs+1):
-        for y in range(my-tcurs,my+tcurs+1):
-            pygame.draw.rect( fenetre , (0,0,150) , (x*tc,y*tc,tc,tc) , 1 )
+    px=int(pos[0]/tc)*tc
+    py=int(pos[1]/tc)*tc
+    for x in range(-tcurs,tcurs+1):
+        for y in range(-tcurs,tcurs+1):
+            pygame.draw.rect(fenetre,(0,0,200),(px+x*tc,py+y*tc,tc,tc),1)
     fenetre.blit( pygame.transform.scale( nmape[msel][1] , [100,100]) , [15,50] )
     fenetre.blit( font.render(nmape[msel][0],True,(255,255,255)), [15,30])
     fenetre.blit( font.render("fps="+str(fps),True,(255,255,255)), [15,15])
@@ -108,11 +109,11 @@ while encour:
             if event.key==K_ESCAPE:
                 encour=False
             elif event.key==K_s:
-            	save(mape)
+                save(mape)
             elif event.key==K_l:
-            	mape=load()
-            elif event.key==k_e:
-            	export(mape)
+                mape=load()
+            elif event.key==K_e:
+                export(mape)
             elif event.key==K_UP: cam[1]+=vit
             elif event.key==K_DOWN: cam[1]-=vit
             elif event.key==K_LEFT: cam[0]+=vit
@@ -134,11 +135,13 @@ while encour:
             elif event.button==1:
                 isclick=False
     if isclick:
-        mx,my=int(-cam[0]+pos[0]/tc),int(-cam[1]+pos[1]/tc)
-        for x in range(mx-tcurs,mx+tcurs+1):
-            for y in range(my-tcurs,my+tcurs+1):
-                if x >= 0 and y >= 0 and x < mape.shape[0] and y < mape.shape[1]:
-                    mape[x,y]=msel
+            px=int((pos[0]-cam[0])/tc)
+            py=int((pos[1]-cam[1])/tc)
+            for x in range(-tcurs,tcurs+1):
+                for y in range(-tcurs,tcurs+1):
+                    xx,yy=x+px,y+py
+                    if xx >= 0 and xx < mape.shape[0] and yy >= 0 and yy < mape.shape[1]:
+                        mape[xx,yy]=msel
     tt=(time.time()-t1)
     if tt!=0: fps=int(1.0/tt)
 
