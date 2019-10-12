@@ -6,7 +6,7 @@
   
 ## Play it
  
-  Here is the link to the page : ( The Traveler )[https://nath54.github.io/the_traveler/main.html]
+  Here is the link to the page : [ The Traveler ](https://nath54.github.io/the_traveler/main.html)
   
 ## How to play it
 
